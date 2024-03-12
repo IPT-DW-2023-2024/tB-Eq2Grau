@@ -1,6 +1,23 @@
 ﻿@{
    // estamos aqui a escrever código C#
    ViewData["Title"] = "Bem vindo";
+
+   // vars auxiliares
+   string respostaX1 = "";
+   string respostaX2 = "";
+   string mensagem = ViewBag.Mensagem;
+   bool erro = false;
+
+   // respostas
+   if (!string.IsNullOrEmpty(ViewBag.X1)) respostaX1 = "x1= " + ViewBag.X1;
+   if (!string.IsNullOrEmpty(ViewBag.X2)) respostaX2 = "x2= " + ViewBag.X2;
+
+   // avisos
+
+   if (mensagem.Contains("Erro")) {
+      erro = true;
+      mensagem = mensagem.Replace("Erro:", "");
+   }
 }
 
 <div class="text-center">
@@ -9,31 +26,104 @@
 </div>
 
 <!-- Este é um comentário que vai ser enviado para o Browser -->
+@if (erro) {
+   <div class="auto-close alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Erro: </strong> @mensagem
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+   </div>
+}
+
 
 <form>
-   <div>
-      <p>
-         Escreva, por favor, os coeficientes da equação:<br />
-         @* Esta é uma linha de comentário do RAZOR
-         só é visível no Visual Studio
+   <div class="grid gap-2">
 
-         Nota: Não esquecer
-         id -> identificação do objeto a ser lida no javascript (cliente)
-         name -> identificação do objeto a ser lida no Servidor
-         *@
-         A: <input type="text" name="A" /><br />
-         B: <input type="text" name="B" /><br />
-         C: <input type="text" name="C" /><br />
-         <input type="submit" value="Calcular" />
+      @*
+      este comentário SÓ SERÁ visível no Visual Studio
+      neste formulário falta aplicar CSS às 'textboxs' e ao 'botão'
+      *@
+      <p>
+         Especifique, por favor, os coeficientes da equação:
       </p>
+      <div class="form-group row col-sm-6 px-md-4 p-1">
+         @*
+         o ID é um identificador que é lido APENAS no browser
+         o NAME é lido no Servidor
+         *@
+         <label class="col-sm-1 col-form-label"> A:</label>
+         <div class="col-sm-2">
+            <input type="text" id="A" name="A" class="form-control" />
+         </div>
+      </div>
+      <div class="form-group row col-sm-6 px-md-4 p-1">
+         <label class="col-sm-1 col-form-label"> B:</label>
+         <div class="col-sm-2">
+            <input type="text" name="B" class="form-control" />
+         </div>
+      </div>
+      <div class="form-group row col-sm-6 px-md-4 p-1">
+         <label class="col-sm-1 col-form-label"> C:</label>
+         <div class="col-sm-2">
+            <input type="text" name="C" class="form-control" />
+         </div>
+      </div>
+
+      <br />
+      <input type="submit" value="Calcular" class="btn btn-primary mb-2" />
+
    </div>
 </form>
 
 
-<div>
+
+<div class="row">
    &nbsp;<br />
-   @* vamos recuperar as mensagens enviadas pelo Controller *@
-   @ViewBag.Mensagem <br />
-   @ViewBag.X1<br />
-   @ViewBag.X2
+
+   @if (!erro) {
+      <text>@mensagem<br /></text>
+   }
+   @respostaX1 <br />
+   @respostaX2
+
 </div>
+
+
+<script>
+   // Get all elements with class "auto-close"
+   const autoCloseElements = document.querySelectorAll(".auto-close");
+
+   // Define a function to handle the fading and sliding animation
+   function fadeAndSlide(element) {
+      const fadeDuration = 500;
+      const slideDuration = 500;
+
+      // Step 1: Fade out the element
+      let opacity = 1;
+      const fadeInterval = setInterval(function () {
+         if (opacity > 0) {
+            opacity -= 0.1;
+            element.style.opacity = opacity;
+         } else {
+            clearInterval(fadeInterval);
+            // Step 2: Slide up the element
+            let height = element.offsetHeight;
+            const slideInterval = setInterval(function () {
+               if (height > 0) {
+                  height -= 10;
+                  element.style.height = height + "px";
+               } else {
+                  clearInterval(slideInterval);
+                  // Step 3: Remove the element from the DOM
+                  element.parentNode.removeChild(element);
+               }
+            }, slideDuration / 10);
+         }
+      }, fadeDuration / 10);
+   }
+
+   // Set a timeout to execute the animation after 5000 milliseconds (5 seconds)
+   setTimeout(function () {
+      autoCloseElements.forEach(function (element) {
+         fadeAndSlide(element);
+      });
+   }, 1000); // 1 seg de duração da mensagem
+</script>

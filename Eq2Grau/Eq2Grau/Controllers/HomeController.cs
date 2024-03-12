@@ -52,7 +52,7 @@ namespace Eq2Grau.Controllers {
          // 1.
          if (string.IsNullOrWhiteSpace(A) || string.IsNullOrWhiteSpace(B) || string.IsNullOrWhiteSpace(C)) {
             // enviar mensagem para o utilizador
-            ViewBag.Mensagem = "Os parâmetros A, B e C são de preenchimento obrigatório.";
+            ViewBag.Mensagem = "Erro:Os parâmetros A, B e C são de preenchimento obrigatório.";
 
             // devolver controlo à View
             return View();
@@ -62,7 +62,7 @@ namespace Eq2Grau.Controllers {
          if (!double.TryParse(A, out auxA)) {
             // o A não é número.
             // enviar mensagem para o utilizador
-            ViewBag.Mensagem = "O parâmetro A não é um número";
+            ViewBag.Mensagem = "Erro:O parâmetro A não é um número";
 
             // devolver controlo à View
             return View();
@@ -72,7 +72,7 @@ namespace Eq2Grau.Controllers {
          if (!double.TryParse(B, out auxB)) {
             // o B não é número.
             // enviar mensagem para o utilizador
-            ViewBag.Mensagem = "O parâmetro B não é um número";
+            ViewBag.Mensagem = "Erro:O parâmetro B não é um número";
 
             // devolver controlo à View
             return View();
@@ -82,7 +82,7 @@ namespace Eq2Grau.Controllers {
          if (!double.TryParse(C, out auxC)) {
             // o C não é número.
             // enviar mensagem para o utilizador
-            ViewBag.Mensagem = "O parâmetro C não é um número";
+            ViewBag.Mensagem = "Erro:O parâmetro C não é um número";
 
             // devolver controlo à View
             return View();
@@ -93,7 +93,7 @@ namespace Eq2Grau.Controllers {
          if (auxA == 0) {
             // o A é ZERO.
             // enviar mensagem para o utilizador
-            ViewBag.Mensagem = "O parâmetro A não pode ser 0 (zero).";
+            ViewBag.Mensagem = "Erro:O parâmetro A não pode ser 0 (zero).";
 
             // devolver controlo à View
             return View();
